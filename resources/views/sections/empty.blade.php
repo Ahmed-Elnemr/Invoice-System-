@@ -29,7 +29,7 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
 
-                    <a class="modal-effect btn btn-outline-primary " data-effect="effect-fall" data-toggle="modal"
+                    <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall" data-toggle="modal"
                         href="#modaldemo8"> اضافه قسم</a>
                                     </div>
 
