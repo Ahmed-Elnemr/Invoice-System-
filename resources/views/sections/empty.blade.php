@@ -29,28 +29,28 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
 
-                    <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall" data-toggle="modal"
-                        href="#modaldemo8"> اضافه قسم</a>
-                                    </div>
+                    <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall"
+                        data-toggle="modal" href="#modaldemo8"> اضافه قسم</a>
+                </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                        @if (session('Add'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>{{ session('Add') }}</strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
+                @if (session('Add'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('Add') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -64,12 +64,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                </tr>
+                                        @php
+                                            $i = 0;
+                                        @endphp
+                                @foreach ($sections as $section)
+                                            @php
+                                                $i++;
+                                            @endphp
+                                    <tr>
+                                        <td>{{ $i }}</td>
+                                        <td> {{ $section->section_name }}</td>
+                                        <td> {{ $section->description }}</td>
+                                        <td>61</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -92,6 +100,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">اسم القسم</label>
                                 <input type="text" class="form-control" id="section_name" name="section_name">
+                               
                             </div>
 
                             <div class="form-group">

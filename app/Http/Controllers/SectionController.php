@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\SectionRequest;
+use App\Http\Requests\SectionFormRequest;
+
 
 class SectionController extends Controller
 {
@@ -16,7 +17,9 @@ class SectionController extends Controller
      */
     public function index()
     {
-        return view('sections.empty');
+        $sections = Section::all();
+
+        return view('sections.empty',compact('sections'));
     }
 
     /**
@@ -35,17 +38,9 @@ class SectionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SectionFormRequest $request)
     {
-        $validatedData = $request->validate([
-            'section_name' => 'required|unique:sections|max:255',
-        ],[
-
-            'section_name.required' =>'يرجي ادخال اسم القسم',
-            'section_name.unique' =>'اسم القسم مسجل مسبقا',
-
-
-        ]);
+        $validatedData = $request->validated();
 
             Section::create([
                 'section_name' => $request->section_name,
