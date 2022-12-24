@@ -18,8 +18,7 @@ class SectionController extends Controller
     public function index()
     {
         $sections = Section::all();
-
-        return view('sections.empty',compact('sections'));
+        return view('sections.sections',compact('sections'));
     }
 
     /**
@@ -38,9 +37,19 @@ class SectionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SectionFormRequest $request)
+    public function store(Request $request)
     {
-        $validatedData = $request->validated();
+
+        $validatedData = $request->validate([
+            'section_name' => 'required|unique:sections|max:255',
+            'description' => 'required',
+        ],[
+
+            'section_name.required' =>'يرجي ادخال اسم القسم',
+            'section_name.unique' =>'اسم القسم مسجل مسبقا',
+            'description.required' =>'يرجي ادخال البيان',
+
+        ]);
 
             Section::create([
                 'section_name' => $request->section_name,
@@ -50,15 +59,18 @@ class SectionController extends Controller
             ]);
             session()->flash('Add', 'تم اضافة القسم بنجاح ');
             return redirect('/sections');
-    }
+
+        }
+
+
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Section  $section
+     * @param  \App\sections  $sections
      * @return \Illuminate\Http\Response
      */
-    public function show(Section $section)
+    public function show(Section $sections)
     {
         //
     }
@@ -66,10 +78,10 @@ class SectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Section  $section
+     * @param  \App\sections  $sections
      * @return \Illuminate\Http\Response
      */
-    public function edit(Section $section)
+    public function edit(Section  $sections)
     {
         //
     }
@@ -78,22 +90,45 @@ class SectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Section  $section
+     * @param  \App\  $sections
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Section $section)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+
+        $this->validate($request, [
+
+            'section_name' => 'required|max:255|unique:sections,section_name,'.$id,
+            'description' => 'required',
+        ],[
+
+            'section_name.required' =>'يرجي ادخال اسم القسم',
+            'section_name.unique' =>'اسم القسم مسجل مسبقا',
+            'description.required' =>'يرجي ادخال البيان',
+
+        ]);
+
+        $sections = Section::find($id);
+        $sections->update([
+            'section_name' => $request->section_name,
+            'description' => $request->description,
+        ]);
+
+        session()->flash('edit','تم تعديل القسم بنجاج');
+        return redirect('/sections');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Section $section)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        Section::find($id)->delete();
+        session()->flash('delete','تم حذف القسم بنجاح');
+        return redirect('/sections');
     }
 }
