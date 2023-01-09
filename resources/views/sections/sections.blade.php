@@ -30,7 +30,7 @@
                 <div class="card-header pb-0">
 
                     <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall"
-                        data-toggle="modal" href="#modaldemo8"> اضافه قسم</a>
+                        data-toggle="modal" href="#modaldemo8"> <i class="fas fa-plus"></i> اضافه قسم</a>
                 </div>
 
                 @if ($errors->any())
@@ -72,7 +72,7 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap">
+                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50';>
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
