@@ -28,7 +28,6 @@
         <div class="col-xl-12">
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
-
                     <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall"
                         data-toggle="modal" href="#modaldemo8"> <i class="fas fa-plus"></i> اضافه قسم</a>
                 </div>
@@ -51,7 +50,7 @@
                         </button>
                     </div>
                 @endif
-                
+
                 @if (session()->has('delete'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>{{ session()->get('delete') }}</strong>

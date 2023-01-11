@@ -16,8 +16,10 @@ class ProductController extends Controller
     public function index()
     {
         $sections = Section::all();
-        return view('products.products',compact('sections'));
-        }
+
+        $products = Product::all();
+        return view('products.products', compact('sections', 'products'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +40,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         Product::create([
-            'product_name' => $request->Product_name,
+            'product_name' => $request->product_name,
             'section_id' => $request->section_id,
             'description' => $request->description,
         ]);
@@ -75,9 +77,20 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request)
     {
-        //
+        $id = Section::where('section_name', $request->section_name)->first()->id;
+
+        $Products = Product::findOrFail($request->pro_id);
+
+        $Products->update([
+            'product_name' => $request->product_name,
+            'description' => $request->description,
+            'section_id' => $id,
+        ]);
+
+        session()->flash('Edit', 'تم تعديل المنتج بنجاح');
+        return back();
     }
 
     /**
@@ -86,8 +99,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request)
     {
-        //
+        $Products = Product::findOrFail($request->pro_id);
+        $Products->delete();
+        session()->flash('delete', 'تم حذف المنتج بنجاح');
+        return back();
     }
 }

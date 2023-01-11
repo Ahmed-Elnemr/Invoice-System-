@@ -30,6 +30,34 @@
             </button>
         </div>
     @endif
+
+    @if (session()->has('Edit'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('Edit') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+
+    @if (session()->has('delete'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('delete') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    @if (session()->has('Error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('Error') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <!-- row -->
     <div class="col-xl-12">
         <div class="card mg-b-20">
@@ -65,29 +93,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                {{-- @php
-                                    $i = 0;
-                                    
-                                @endphp
-                                @foreach ($products as $product)
-                                    @php
-                                        $i++;
-                                    @endphp
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $products->product_name }} </td>
-                                    <td>{{ $products->product_name }}</td>
-                                    <td>{{ $products->description }}</td>
-                                    <td>action</td>
-                                @endforeach --}}
-                            </tr>
+                            @php
+                                $i = 0;
+                            @endphp
+                            @foreach ($products as $Product)
+                                <tr>
 
+                                    <td>{{ $i }}</td>
+                                    <td>{{ $Product->product_name }}</td>
+                                    <td>{{ $Product->section->section_name }}</td>
+                                    <td>{{ $Product->description }}</td>
+                                    <td>
+                                        <button class="btn btn-outline-success btn-sm"
+                                            data-name="{{ $Product->product_name }}" data-pro_id="{{ $Product->id }}"
+                                            data-section_name="{{ $Product->section->section_name }}"
+                                            data-description="{{ $Product->description }}" data-toggle="modal"
+                                            data-target="#edit_Product">تعديل</button>
+
+                                        <button class="btn btn-outline-danger btn-sm " data-pro_id="{{ $Product->id }}"
+                                            data-product_name="{{ $Product->product_name }}" data-toggle="modal"
+                                            data-target="#modaldemo9">حذف</button>
+                                    </td>
+
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </div>
     <!-- add -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -105,8 +139,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">اسم المنتج</label>
-                            <input type="text" class="form-control" id="Product_name" name="Product_name" required>
-
+                            <input type="text" class="form-control" id="Product_name" name="product_name" required>
                         </div>
 
                         <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
@@ -131,6 +164,81 @@
             </div>
         </div>
     </div>
+
+    <!-- edit -->
+    <div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">تعديل منتج</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action='products/update' method="post">
+                    {{ method_field('patch') }}
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="title">اسم المنتج :</label>
+
+                            <input type="hidden" class="form-control" name="pro_id" id="pro_id" value="">
+
+                            <input type="text" class="form-control" name="product_name" id="Product_name">
+                        </div>
+
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
+                        <select name="section_name" id="section_name" class="custom-select my-1 mr-sm-2" required>
+                            @foreach ($sections as $section)
+                                <option>{{ $section->section_name }}</option>
+                            @endforeach
+                        </select>
+
+                        <div class="form-group">
+                            <label for="des">ملاحظات :</label>
+                            <textarea name="description" cols="20" rows="5" id='description' class="form-control"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">تعديل البيانات</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- delete -->
+    <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">حذف المنتج</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="products/destroy" method="post">
+                    {{ method_field('delete') }}
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                        <input type="hidden" name="pro_id" id="pro_id" value="">
+                        <input class="form-control" name="product_name" id="product_name" type="text" readonly>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger">تاكيد</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     </div>
     <!-- row closed -->
     </div>
@@ -159,4 +267,29 @@
     <!--Internal  Datatable js -->
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
     <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
+    <script>
+        $('#edit_Product').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var product_name = button.data('name')
+            var section_name = button.data('section_name')
+            var pro_id = button.data('pro_id')
+            var description = button.data('description')
+            var modal = $(this)
+            modal.find('.modal-body #Product_name').val(product_name);
+            modal.find('.modal-body #section_name').val(section_name);
+            modal.find('.modal-body #description').val(description);
+            modal.find('.modal-body #pro_id').val(pro_id);
+        })
+
+
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var pro_id = button.data('pro_id')
+            var product_name = button.data('product_name')
+            var modal = $(this)
+
+            modal.find('.modal-body #pro_id').val(pro_id);
+            modal.find('.modal-body #product_name').val(product_name);
+        })
+    </script>
 @endsection
