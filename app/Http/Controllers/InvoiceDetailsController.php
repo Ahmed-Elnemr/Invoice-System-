@@ -58,13 +58,13 @@ class InvoiceDetailsController extends Controller
      * @param  \App\Models\Invoice_Details  $invoice_Details
      * @return \Illuminate\Http\Response
      */
-    public function edit( $InvoicesDetails)
+    public function edit($InvoicesDetails)
     {
-        $invoices = Invoice::where('id',$InvoicesDetails)->first();
-        $details  = Invoice_Details::where('id_Invoice',$InvoicesDetails)->get();
-        $attachments  = invoice_attachments::where('invoice_id',$InvoicesDetails)->get();
+        $invoices = Invoice::where('id', $InvoicesDetails)->first();
+        $details  = Invoice_Details::where('id_Invoice', $InvoicesDetails)->get();
+        $attachments  = invoice_attachments::where('invoice_id', $InvoicesDetails)->get();
 
-        return view('invoices.details_invoice',compact('invoices','details','attachments'));
+        return view('invoices.details_invoice', compact('invoices', 'details', 'attachments'));
     }
 
     /**
@@ -94,19 +94,20 @@ class InvoiceDetailsController extends Controller
         return back();
     }
 
-    public function get_file($invoice_number, $file_name)
+    public function download_file($invoice_number, $file_name)
 
     {
-        $contents = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoice_number . '/' . $file_name);
-        return response()->download($contents);
+        $file_path=public_path('Attachments'.'/'.$invoice_number . '/' . $file_name);
+        return response()->download($file_path);
     }
 
 
 
-    public function open_file($invoice_number, $file_name)
+    public function view_file($invoice_number, $file_name)
 
     {
-        $files = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoice_number . '/' . $file_name);
-        return response()->file($files);
+        $file_path=public_path('Attachments'.'/'.$invoice_number . '/' . $file_name);
+        return response()->file($file_path);
     }
+
 }

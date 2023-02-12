@@ -250,12 +250,12 @@
                                                                     <td colspan="2">
 
                                                                         <a class="btn btn-outline-success btn-sm"
-                                                                            href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"
+                                                                        href="{{route('view.invoice.file',['invoice_number'=>$invoices->invoice_number ,'file_name'=>$attachment->file_name])}}"
                                                                             role="button"><i class="fas fa-eye"></i>&nbsp;
                                                                             عرض</a>
 
                                                                         <a class="btn btn-outline-info btn-sm"
-                                                                            href="{{ url('download') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"
+                                                                        href="{{route('download.invoice.file',['invoice_number'=>$invoices->invoice_number ,'file_name'=>$attachment->file_name])}}"
                                                                             role="button"><i
                                                                                 class="fas fa-download"></i>&nbsp;
                                                                             تحميل</a>
@@ -267,7 +267,6 @@
                                                                                 data-invoice_number="{{ $attachment->invoice_number }}"
                                                                                 data-id_file="{{ $attachment->id }}"
                                                                                 data-target="#delete_file">حذف</button>
-                                                               
 
                                                                     </td>
                                                                 </tr>
@@ -304,8 +303,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('delete_file') }}" method="post">
-
+                <form action="{{ route('delete.invoice.file') }}" method="post">    
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <p class="text-center">

@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('css')
     <!-- Internal Data table css -->
-    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"/>
     <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet"/>
     <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     <a class="modal-effect btn btn-outline-primary continar:block " data-effect="effect-fall"
-                        data-toggle="modal" href="#modaldemo8"> <i class="fas fa-plus"></i> اضافه قسم</a>
+                       data-toggle="modal" href="#modaldemo8"> <i class="fas fa-plus"></i> اضافه قسم</a>
                 </div>
 
                 @if ($errors->any())
@@ -71,43 +71,43 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50';>
+                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50' ;>
                             <thead>
-                                <tr>
-                                    <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">اسم القسم </th>
-                                    <th class="border-bottom-0">الوصف </th>
-                                    <th class="border-bottom-0">العمليات </th>
-                                </tr>
+                            <tr>
+                                <th class="border-bottom-0">#</th>
+                                <th class="border-bottom-0">اسم القسم</th>
+                                <th class="border-bottom-0">الوصف</th>
+                                <th class="border-bottom-0">العمليات</th>
+                            </tr>
                             </thead>
                             <tbody>
+                            @php
+                                $i = 0;
+                            @endphp
+                            @foreach ($sections as $section)
                                 @php
-                                    $i = 0;
+                                    $i++;
                                 @endphp
-                                @foreach ($sections as $section)
-                                    @php
-                                        $i++;
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $i }}</td>
-                                        <td> {{ $section->section_name }}</td>
-                                        <td> {{ $section->description }}</td>
-                                        <td>
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td> {{ $section->section_name }}</td>
+                                    <td> {{ $section->description }}</td>
+                                    <td>
 
-                                            <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                data-id="{{ $section->id }}"
-                                                data-section_name="{{ $section->section_name }}"
-                                                data-description="{{ $section->description }}" data-toggle="modal"
-                                                href="#exampleModal2" title="تعديل"><i class="las la-pen"></i></a>
+                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
+                                           data-id="{{ $section->id }}"
+                                           data-section_name="{{ $section->section_name }}"
+                                           data-description="{{ $section->description }}" data-toggle="modal"
+                                           href="#exampleModal2" title="تعديل"><i class="las la-pen"></i></a>
 
-                                            <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                data-id="{{ $section->id }}"
-                                                data-section_name="{{ $section->section_name }}" data-toggle="modal"
-                                                href="#modaldemo9" title="حذف"><i class="las la-trash"></i></a>
+                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                           data-id="{{ $section->id }}"
+                                           data-section_name="{{ $section->section_name }}" data-toggle="modal"
+                                           href="#modaldemo9" title="حذف"><i class="las la-trash"></i></a>
 
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -120,8 +120,10 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-content-demo">
                     <div class="modal-header">
-                        <h6 class="modal-title">Modal Header</h6><button aria-label="Close" class="close"
-                            data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                        <h6 class="modal-title">Modal Header</h6>
+                        <button aria-label="Close" class="close"
+                                data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('sections.store') }}" method="post">
@@ -151,7 +153,7 @@
 
         <!-- edit -->
         <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -161,7 +163,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <form action="sections/update" method="post" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
@@ -174,6 +175,7 @@
                                 <label for="message-text" class="col-form-label">ملاحظات:</label>
                                 <textarea class="form-control" id="description" name="description"></textarea>
                             </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">تاكيد</button>
@@ -189,8 +191,9 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-content-demo">
                     <div class="modal-header">
-                        <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close"
-                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title">حذف القسم</h6>
+                        <button aria-label="Close" class="close"
+                                data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <form action="sections/destroy" method="post">
                         {{ method_field('delete') }}
@@ -237,7 +240,7 @@
     <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 
     <script>
-        $('#exampleModal2').on('show.bs.modal', function(event) {
+        $('#exampleModal2').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var section_name = button.data('section_name')
@@ -250,7 +253,7 @@
     </script>
 
     <script>
-        $('#modaldemo9').on('show.bs.modal', function(event) {
+        $('#modaldemo9').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var section_name = button.data('section_name')

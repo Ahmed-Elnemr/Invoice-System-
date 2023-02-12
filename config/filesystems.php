@@ -43,6 +43,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        //public path
         'public_uploads' => [
             'driver' => 'local',
             'root' => public_path('/Attachments'),
