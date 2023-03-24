@@ -97,6 +97,7 @@
                                 $i = 0;
                             @endphp
                             @foreach ($products as $Product)
+                            
                                 <tr>
 
                                     <td>{{ $i }}</td>

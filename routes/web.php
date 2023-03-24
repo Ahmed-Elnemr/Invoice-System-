@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\InvoiceDetailsController;
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\InvoiceAchiveController;
+use App\Http\Controllers\InvoiceDetailsController;
+use App\Http\Controllers\InvoiceAttachmentsController;
 
 
 /*
@@ -33,15 +35,31 @@ Route::resource('sections', SectionController::class);
 Route::resource('products', ProductController::class);
 Route::get('section/{section}', [InvoiceController::class, 'getProducts']);
 
-Route::get('InvoicesDetails/{InvoicesDetails}', [InvoiceDetailsController::class, 'edit'])->name('invoices.details.edite');
-Route::get('viewFile/{invoice_number}/{file_name}', [InvoiceDetailsController::class, 'view_file'])->name('view.invoice.file');
-Route::get('downloadFile/{invoice_number}/{file_name}', [InvoiceDetailsController::class, 'download_file'])->name('download.invoice.file');
-Route::post('deleteFile', [InvoiceDetailsController::class, 'destroy'])->name('delete.invoice.file');
+// InvoiceDetailsController 
+Route::controller(InvoiceDetailsController::class)->group(function () {
+    Route::get('InvoicesDetails/{InvoicesDetails}', 'edit')->name('invoices.details.edite');
+    Route::get('viewFile/{invoice_number}/{file_name}' ,'view_file')->name('view.invoice.file');
+    Route::get('downloadFile/{invoice_number}/{file_name}', 'download_file')->name('download.invoice.file');
+    Route::post('deleteFile',  'destroy')->name('delete.invoice.file');
+});
+////////////////////////////////////////////////////////////////
 
-// Route::get('/edit_invoice/{id}', 'InvoicesController@edit');
+// InvoiceAttachmentsController
+Route::resource('InvoiceAttachments', InvoiceAttachmentsController::class);
+////////////////////////////////////////////////////////////////
+Route::get('editInvoice/{invoice}',[InvoiceController::class,'edit'])->name('edite.invoice');
+Route::get('/statusShow/{invoice_statue}',[InvoiceController::class,'show'])->name('status.show');
 
-// {{ route('invoices.details.edite',['InvoicesDetails'=>$invoice->id] )}}
+Route::post('/Status_Update/{id}', [InvoiceController::class,'Status_Update'])->name('Status_Update');
 
+Route::resource('Archive', InvoiceAchiveController::class);
 
+Route::get('Invoice_Paid',[InvoiceController::class,'Invoice_Paid'])->name('invoice_paid');
+
+Route::get('Invoice_UnPaid',[InvoiceController::class,'Invoice_UnPaid'])->name('invoice_unPaid');
+
+Route::get('Invoice_Partial',[InvoiceController::class,'showInvoice_Partial'])->name('showInvoice_partial');
+
+    Route::get('Print_invoice/{invoice}' ,[InvoiceController::class,'Print_invoice']);
 
 Route::get('/{page}', [AdminController::class, 'index']);

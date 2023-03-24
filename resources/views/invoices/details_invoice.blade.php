@@ -202,7 +202,6 @@
                                         <div class="tab-pane" id="tab6">
                                             <!--المرفقات-->
                                             <div class="card card-statistics">
-                                                @can('اضافة مرفق')
                                                     <div class="card-body">
                                                         <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                                         <h5 class="card-title">اضافة مرفقات</h5>
@@ -223,7 +222,6 @@
                                                                 name="uploadedFile">تاكيد</button>
                                                         </form>
                                                     </div>
-                                                @endcan
                                                 <br>
 
                                                 <div class="table-responsive mt-15">
@@ -231,7 +229,7 @@
                                                         style="text-align:center">
                                                         <thead>
                                                             <tr class="text-dark">
-                                                                <th scope="col">م</th>
+                                                                <th scope="col">#</th>
                                                                 <th scope="col">اسم الملف</th>
                                                                 <th scope="col">قام بالاضافة</th>
                                                                 <th scope="col">تاريخ الاضافة</th>

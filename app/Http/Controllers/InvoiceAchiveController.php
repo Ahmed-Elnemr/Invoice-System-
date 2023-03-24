@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class InvoiceAchiveController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        if(view()->exists($id)){
-            return view($id);
-        }
-        else
-        {
-            return view('404');
-        }
-
-     //   return view($id);
+        $invoices = Invoice::onlyTrashed()->get();
+        return view('invoices.Archive_Invoices', compact('invoices'));
     }
 
     /**
@@ -76,7 +70,10 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $id = $request->invoice_id;
+        $flight = Invoice::withTrashed()->where('id', $id)->restore();
+        session()->flash('restore_invoice');
+        return redirect('/invoices');
     }
 
     /**
@@ -85,8 +82,11 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $invoices = invoice::withTrashed()->where('id',$request->invoice_id)->first();
+        $invoices->forceDelete();
+        session()->flash('delete_invoice');
+        return redirect('/Archive');
     }
 }
